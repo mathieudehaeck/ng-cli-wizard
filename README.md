@@ -1,2 +1,2 @@
-# ng-cli-generator
-Angular cli generator
+# ng-cli-wizard
+Angular cli wizard
