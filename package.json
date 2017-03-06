@@ -1,0 +1,39 @@
+{
+  "name": "ng-cli-wizard",
+  "version": "1.0.0",
+  "description": "A wizard for the Angular cli tool.",
+  "main": "cli.js",
+  "bin": {
+    "ngw": "index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://MathieuDeHaeck@github.com/MathieuDeHaeck/ng-cli-wizard.git"
+  },
+  "keywords": [
+    "ng-cli",
+    "ng-lic-wizard",
+    "wizard",
+    "angular",
+    "angular-cli",
+    "angular-cli-wizard"
+  ],
+  "author": "Mathieu De Haeck",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MathieuDeHaeck/ng-cli-wizard/issues"
+  },
+  "homepage": "https://github.com/MathieuDeHaeck/ng-cli-wizard#readme",
+  "devDependencies": {
+    "chalk": "^1.1.3",
+    "es6-promise": "^4.0.5",
+    "figlet": "^1.2.0",
+    "fullname": "^3.3.0",
+    "inquirer": "^3.0.1",
+    "node-cmd": "^1.2.0",
+    "openurl": "^1.1.1"
+  }
+}
