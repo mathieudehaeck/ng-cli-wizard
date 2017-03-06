@@ -1,7 +1,7 @@
 ![logo](https://github.com/MathieuDeHaeck/ng-cli-wizard/blob/master/assets/logo.png)
 
 # ng-cli-wizard
-> A wizard to quickly set up new projects, with the (Angular CLI)[https://github.com/angular/angular-cli].
+> A wizard to quickly set up new projects, with the [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Questions
 * What would be the name for your new Angular project?
