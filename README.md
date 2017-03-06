@@ -1,5 +1,7 @@
 # ng-cli-wizard
-Angular cli wizard
+> Angular cli wizard
+
+![](https://github.com/MathieuDeHaeck/ng-cli-wizard/blob/master/logo.svg)
 
 ## Questions
 * What would be the name for your new awesome Angular project?
