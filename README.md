@@ -1,7 +1,7 @@
 # ng-cli-wizard
 > Angular cli wizard
 
-![alt tag](https://raw.githubusercontent.com/MathieuDeHaeck/ng-cli-wizard/blob/master/assets/logo.png)
+![logo](https://github.com//MathieuDeHaeck/ng-cli-wizard/blob/master/assets/logo.png)
 
 ## Questions
 * What would be the name for your new awesome Angular project?
