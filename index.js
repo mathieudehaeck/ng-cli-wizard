@@ -85,7 +85,7 @@ const _createNewProject = () => {
     {
       type: 'confirm',
       name: 'serve',
-      message: 'Would you like to serve your new app in the browser when finished ?',
+      message: 'Would you like to serve your new app in the browser when finished?',
       default: true
     },
     // {
