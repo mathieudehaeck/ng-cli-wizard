@@ -5,13 +5,18 @@
 
 ## Prerequisites
 
-#### NodeJS
+#### [NodeJS](https://nodejs.org/en/)
 Both the CLI and generated project have dependencies that require Node 6.9.0 or higher, together
 with NPM 3 or higher.
 
-#### Angular CLI
+#### [Angular CLI](https://cli.angular.io/)
 ```bash
 npm install -g @angular/cli
+```
+
+#### [Yarn](https://yarnpkg.com/en/)
+```bash
+npm install -g yarn
 ```
 
 ## Table of Contents
