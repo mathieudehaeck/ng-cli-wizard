@@ -24,6 +24,7 @@ npm install -g yarn
 * [Installation](#installation)
 * [Usage](#usage)
 * [Questions](#questions)
+* [License](#license)
 
 ## Installation
 
@@ -65,3 +66,6 @@ ngw
 * Would you like to serve your new app in the browser when finished?
     * Yes (default)
     * No
+    
+## License
+MIT
