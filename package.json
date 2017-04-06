@@ -1,6 +1,6 @@
 {
   "name": "ng-cli-wizard",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.0",
   "description": "A wizard for the Angular cli tool.",
   "main": "cli.js",
   "bin": {
