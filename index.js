@@ -45,7 +45,7 @@ const _createNewProject = () => {
       type: 'list',
       name: 'dependencyManager',
       message: 'What dependency manager would you like to use?',
-      choices: ['Yarn', 'NPM, Because i have all the time in the world.'],
+      choices: ['Default', 'Yarn', 'NPM'],
       filter: function (val) {
         return val.toLowerCase();
       }
@@ -105,15 +105,15 @@ const _createNewProject = () => {
     const projectDir = answers.projectName;
 
     _setupProject(answers, () => {
-      if (answers.dependencyManager === 'yarn') {
-        _installYarnPackages(projectDir, () => {
+      if(answers.dependencyManager === 'default') {
+        _serveProject(projectDir);
+      } else {
+        _installPackages(answers.dependencyManager, projectDir, () => {
           _serveProject(projectDir);
         });
-      } else {
-        _serveProject(projectDir);
       }
-    });
 
+    });
   });
 };
 
@@ -150,10 +150,10 @@ const _setupProject = (answers, callback) => {
  * @param callback
  * @private
  */
-const _installYarnPackages = (projectDir, callback) => {
-  console.log(chalk.green('Installing packages for tooling via yarn.'));
+const _installPackages = (dependencyManager, projectDir, callback) => {
+  console.log(chalk.green(`Installing packages for tooling via ${dependencyManager}.`));
 
-  let execCmd = exec(`yarn install --colors`,
+  let execCmd = exec(`${dependencyManager} install --colors`,
       {cwd: `./${projectDir}/`},
       (error) => {
         if (error) {
@@ -209,11 +209,11 @@ const _serveProject = (projectDir) => {
  */
 const _getNgNewOptions = (answers) => {
   let options = answers.projectName;
-  answers.dependencyManager == 'yarn' ? options += ` -sn` : null;
-  answers.git == false ? options += ` -sg` : null;
-  answers.unitTesting == false ? options += ` -st` : null;
-  answers.cssPreprocessor == 'scss' || 'sass' || 'less' || 'stylus' ? options += ` --style=${answers.cssPreprocessor}` : null;
-  answers.unitTesting == true ? options += ` --routing` : null;
+  answers.dependencyManager !== 'default' ? options += ` -si` : null;
+  answers.git === false ? options += ` -sg` : null;
+  answers.unitTesting === false ? options += ` -st` : null;
+  answers.cssPreprocessor === 'scss' || 'sass' || 'less' || 'stylus' ? options += ` --style=${answers.cssPreprocessor}` : null;
+  answers.unitTesting === true ? options += ` --routing` : null;
   answers.inlineOptions.indexOf('style') ? options += ` -is` : null;
   answers.inlineOptions.indexOf('templates') ? options += ` -it` : null;
   return options;
