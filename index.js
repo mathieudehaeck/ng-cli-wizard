@@ -6,8 +6,6 @@ const fullname = require('fullname'),
     figlet = require('figlet'),
     inquirer = require('inquirer'),
     exec = require('child_process').exec,
-    execSync = require('child_process').execSync,
-    promise = require('es6-promise').Promise, state = {},
     openurl = require('openurl');
 
 /**
@@ -104,65 +102,103 @@ const _createNewProject = () => {
   ];
 
   inquirer.prompt(ngNewQuestions).then((answers) => {
-    let projectDir = answers.projectName,
-        serve = answers.serve;
+    const projectDir = answers.projectName;
 
-    // todo: first touch projectname && cd projectname
-    // run ng init
-
-    new promise(function (resolve, reject) {
-      _runCmd(`mkdir ${answers.projectName} && ls -la`, () => {
-        resolve();
-      });
+    _setupProject(answers, () => {
+      if (answers.dependencyManager === 'yarn') {
+        _installYarnPackages(projectDir, () => {
+          _serveProject(projectDir);
+        });
+      } else {
+        _serveProject(projectDir);
+      }
     });
-    //     .then(function () {
-    //   return new promise(function (resolve, reject) {
-    //     _runCmd(`yarn`, () => {
-    //       resolve();
-    //     });
-    //   });
-    // }).then(function () {
-    //   return new promise(function (resolve, reject) {
-    //     _runCmd(`yarn`, () => {
-    //       resolve();
-    //     });
-    //   });
-    // });
-
-
 
   });
+};
 
-    // _runCmd(`ng new ${_getNgNewOptions(answers)}`, () => {
+/**
+ * Setup a new ng-cli project
+ * @param answers
+ * @param callback
+ * @private
+ */
+const _setupProject = (answers, callback) => {
+  let execCmd = exec(`ng new ${_getNgNewOptions(answers)} --colors`, (error) => {
+    if (error) {
+      console.error(error);
+      return;
+    }
+  });
 
+  execCmd.stdout.on('data', function (data) {
+    console.log(data.toString().replace(/\n$/, ''));
+  });
 
-    // sequence
-    //     .then(function() {
-    //       _runCmd(`ng new ${_getNgNewOptions(answers)}`, next)
-    //     })
-    //     .then(function(next, res) {
-    //       console.log('>>>> done!');
-    //     });
+  execCmd.stderr.on('data', function (data) {
+    console.log(data.toString().replace(/\n$/, ''));
+  });
 
+  execCmd.on('exit', () => {
+    callback();
+  });
+};
 
-    //     cmdArray = [];
-    //
-    // cmdArray.push(`ng new ${_getNgNewOptions(answers)}`);
-    // cmdArray.push(`cd ${projectDir}`);
-    // cmdArray.push('yarn');
-    //
-    // // if (serve) {
-    // //   cmdArray.push('ng serve');
-    // // }
-    //
-    // let cmd = cmdArray.join('&&');
-    //
-    // _runCmd(cmd, () => {
-    //   if (serve) {
-    //     // openurl.open('http://localhost:4200/');
-    //   }
-    // });
+/**
+ * install packages using yarn
+ * @param projectDir
+ * @param callback
+ * @private
+ */
+const _installYarnPackages = (projectDir, callback) => {
+  console.log(chalk.green('Installing packages for tooling via yarn.'));
 
+  let execCmd = exec(`yarn install --colors`,
+      {cwd: `./${projectDir}/`},
+      (error) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+      });
+
+  execCmd.stderr.on('data', function (data) {
+    console.log(data.toString().replace(/\n$/, ''));
+  });
+
+  execCmd.on('exit', () => {
+    console.log(chalk.green('Installed packages for tooling via yarn.'));
+    callback();
+  });
+};
+
+/**
+ * Serve the new project
+ * @param projectDir
+ * @private
+ */
+const _serveProject = (projectDir) => {
+  let execCmd = exec(`ng serve --colors`, {
+        cwd: `./${projectDir}/`,
+        maxBuffer: 1024 * 500
+      },
+      (error, stdout) => {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        console.log(stdout);
+      });
+
+  openurl.open('http://localhost:4200/');
+
+  execCmd.stderr.on('data', function (data) {
+    console.log(data.toString());
+  });
+
+  execCmd.on('exit', () => {
+    console.log(chalk.red('Something went wrong, server has stopped.'));
+  });
 };
 
 /**
@@ -184,54 +220,8 @@ const _getNgNewOptions = (answers) => {
 };
 
 /**
- * Get the options for serving the app
- * @param answers
- * @returns {*}
- * @private
- */
-const _getNgServeOptions = (answers) => {
-  let serve = answers.serve;
-  return serve;
-};
-
-/**
- * Run a command with options
- * @param cmd
- * @param options
- * @private
- */
-const _runCmd = (cmd, callback) => {
-  // console.log(`Running: ${cmd}`);
-
-  // let execCmd = exec('pwd', {
-  //   cwd: '/home/user/directory'
-  // }, function(error, stdout, stderr) {
-  //   // work with result
-  // });
-
- let path = cwd || '/';
-
-
-  let execCmd = exec(`${cmd}`,{cwd: path}, (error, stdout, stderr) => {//--colors
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    console.log(`${stdout}`);
-    // console.log(`stderr: ${stderr}`);
-  });
-
-  execCmd.on('exit', () => {
-    callback();
-  })
-};
-
-/**
  * Run the CLI
  */
 _start(() => {
   _createNewProject();
 });
-
-// Todo: Synchronous Exec in Node.js
-// Todo: serve and open in browser separate from ng new
