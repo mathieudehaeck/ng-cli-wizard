@@ -1,6 +1,9 @@
 ![logo](https://github.com/MathieuDeHaeck/ng-cli-wizard/blob/master/assets/logo.png)
 
 ## ng-cli-wizard
+![](https://img.shields.io/badge/build-stable-brightgreen.svg?maxAge=100000)
+<a href="http://choosealicense.com/licenses/mit/"><img src="https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=10000" alt="MIT License"/></a>
+
 > A wizard to quickly set up new projects, with the [Angular CLI](https://github.com/angular/angular-cli).
 
 ## Prerequisites
